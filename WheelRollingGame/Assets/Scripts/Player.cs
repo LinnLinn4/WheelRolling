@@ -4,25 +4,50 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private CharacterController controller;
+    private Vector3 direction;
+    public float forwardSpeed;
     private int desirdLane = 1;
-    public float LaneDistance = 2.5f;
+    public float LaneDistance;
+    public SwipeControl swipeControl;
+
+    private void Start() {
+        controller = GetComponent<CharacterController>();
+    }
 
     void Update()
     {
-        // camera.transform.position = transform.position + offset;
-        //transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
+        direction.z = forwardSpeed;
+
+        if(swipeControl.SwipeRight) //Input.GetKeyDown(KeyCode.RightArrow)
+        {
+            desirdLane++;
+            if (desirdLane == 3)
+                desirdLane = 2;
+        }
+        if(swipeControl.SwipeLeft)//Input.GetKeyDown(KeyCode.LeftArrow)
+        {
+            desirdLane--;
+            if (desirdLane == -1)
+                desirdLane = 0;
+        }
+
+        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+
+        if(desirdLane == 0)
+        {
+            targetPosition += Vector3.left * LaneDistance;
+        }
+        else if(desirdLane == 2)
+        {
+            targetPosition += Vector3.right * LaneDistance;
+        }
+
+        transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        // rb.AddForce(0, 0, ForwardForce * Time.deltaTime);
-        // if(Input.GetKey("d"))
-        // {
-        //     rb.AddForce(sidewayForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
-        // }
-        // if(Input.GetKey("a"))
-        // {
-        //     rb.AddForce(-sidewayForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
-        // }
+        controller.Move(direction * Time.fixedDeltaTime);
     }
 }
