@@ -4,69 +4,48 @@ using UnityEngine;
 
 public class TilesManager : MonoBehaviour
 {
-    private List<GameObject> activeTiles;
+    private List<GameObject> activeTiles = new List<GameObject>();
     public GameObject[] tilePrefabs;
 
     public float tileLength = 50;
     public int numberOfTiles = 3;
-    public int totalNumOfTiles = 8;
 
     public float zSpawn = 0;
 
-    private Transform playerTransform;
+    public Transform playerTransform;
 
     private int previousIndex;
 
     void Start()
     {
-        activeTiles = new List<GameObject>();
         for (int i = 0; i < numberOfTiles; i++)
         {
             if(i==0)
                 SpawnTile();
             else
-                SpawnTile(Random.Range(0, totalNumOfTiles));
+                SpawnTile(Random.Range(0, tilePrefabs.Length));
         }
-
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-
     }
     void Update()
     {
         if(playerTransform.position.z - 50 >= zSpawn - (numberOfTiles * tileLength))
         {
-            int index = Random.Range(0, totalNumOfTiles);
-            while(index == previousIndex)
-                index = Random.Range(0, totalNumOfTiles);
-
+            SpawnTile(Random.Range(0, tilePrefabs.Length));
             DeleteTile();
-            SpawnTile(index);
         }
             
     }
 
     public void SpawnTile(int index = 0)
     {
-        GameObject tile = tilePrefabs[index];
-        if (tile.activeInHierarchy)
-            tile = tilePrefabs[index + 8];
-
-        if(tile.activeInHierarchy)
-            tile = tilePrefabs[index + 16];
-
-        tile.transform.position = Vector3.forward * zSpawn;
-        tile.transform.rotation = Quaternion.identity;
-        tile.SetActive(true);
-
-        activeTiles.Add(tile);
+        GameObject spawnedTile = Instantiate(tilePrefabs[index], transform.forward * zSpawn, Quaternion.identity);
+        activeTiles.Add(spawnedTile);
         zSpawn += tileLength;
-        previousIndex = index;
     }
 
     private void DeleteTile()
     {
-        activeTiles[0].SetActive(false);
+        Destroy(activeTiles[0]);
         activeTiles.RemoveAt(0);
-        //PlayerManager.score += 3;
     }
 }
