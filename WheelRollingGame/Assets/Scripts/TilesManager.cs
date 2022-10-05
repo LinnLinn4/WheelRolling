@@ -9,9 +9,7 @@ public class TilesManager : MonoBehaviour
 
     public float tileLength = 50;
     public int numberOfTiles = 3;
-
     public float zSpawn = 0;
-
     public Transform playerTransform;
 
 
@@ -31,8 +29,7 @@ public class TilesManager : MonoBehaviour
         {
             SpawnTile(Random.Range(0, tilePrefabs.Length));
             DeleteTile();
-        }
-            
+        }  
     }
 
     public void SpawnTile(int index = 0)

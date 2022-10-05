@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
     private CharacterController controller;
     private Vector3 direction;
     public float forwardSpeed;
     private int desiredLane = 1;
     public float LaneDistance;
+    int scoreAmount = 0;
 
     private void Start() {
+        instance = this;
         controller = GetComponent<CharacterController>();
     }
 
@@ -56,5 +59,10 @@ public class Player : MonoBehaviour
     
     private void FixedUpdate() {
         controller.Move(direction * Time.deltaTime);
+    }
+    public void AddScore(int score)
+    {
+        scoreAmount = score + scoreAmount;
+        Debug.Log(scoreAmount);
     }
 }
