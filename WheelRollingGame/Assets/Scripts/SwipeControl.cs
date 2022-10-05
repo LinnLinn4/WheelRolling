@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwipeControl : MonoBehaviour
 {
-    private static bool tap, swipeLeft, swipeRight, isDraging;
+    public static bool tap, swipeLeft, swipeRight, isDraging;
     private Vector2 startTouch, swipeDelta;
 
     private void Update() 
@@ -18,6 +18,7 @@ public class SwipeControl : MonoBehaviour
             isDraging = true;
             startTouch = Input.mousePosition;
         }
+
         else if (Input.GetMouseButtonUp(0))
         {
             isDraging = false;
@@ -50,7 +51,7 @@ public class SwipeControl : MonoBehaviour
                 swipeDelta = (Vector2)Input.mousePosition - startTouch;
         } 
 
-        if (swipeDelta.magnitude > 125)
+        if (swipeDelta.magnitude >100)
         {
             float x = swipeDelta.x;
             if (x < 0)
@@ -67,8 +68,8 @@ public class SwipeControl : MonoBehaviour
         isDraging = false;
     }
 
-    public bool Tap {get {return tap;}}
-    public Vector2 SwipeDelta {get {return swipeDelta;}}
-    public bool SwipeLeft {get {return swipeLeft;}}
-    public bool SwipeRight {get {return swipeRight;}}
+    // public bool Tap {get {return tap;}}
+    // public Vector2 SwipeDelta {get {return swipeDelta;}}
+    // public bool SwipeLeft {get {return swipeLeft;}}
+    // public bool SwipeRight {get {return swipeRight;}}
 }

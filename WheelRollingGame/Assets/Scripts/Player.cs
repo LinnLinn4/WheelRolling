@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     public float forwardSpeed;
     private int desirdLane = 1;
     public float LaneDistance;
-    public SwipeControl swipeControl;
 
     private void Start() {
         controller = GetComponent<CharacterController>();
@@ -19,13 +18,13 @@ public class Player : MonoBehaviour
     {
         direction.z = forwardSpeed;
 
-        if(swipeControl.SwipeRight) //Input.GetKeyDown(KeyCode.RightArrow)
+        if(SwipeControl.swipeRight) //Input.GetKeyDown(KeyCode.RightArrow)
         {
             desirdLane++;
             if (desirdLane == 3)
                 desirdLane = 2;
         }
-        if(swipeControl.SwipeLeft)//Input.GetKeyDown(KeyCode.LeftArrow)
+        if(SwipeControl.swipeLeft)//Input.GetKeyDown(KeyCode.LeftArrow)
         {
             desirdLane--;
             if (desirdLane == -1)
@@ -43,7 +42,18 @@ public class Player : MonoBehaviour
             targetPosition += Vector3.right * LaneDistance;
         }
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
+        //transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
+        if (transform.position != targetPosition)
+        {
+            Vector3 diff = targetPosition - transform.position;
+            Vector3 moveDir = diff.normalized * 30 * Time.deltaTime;
+            if (moveDir.sqrMagnitude < diff.magnitude)
+                controller.Move(moveDir);
+            else
+                controller.Move(diff);
+        }
+
+        controller.Move(direction * Time.deltaTime);
     }
 
     private void FixedUpdate()
