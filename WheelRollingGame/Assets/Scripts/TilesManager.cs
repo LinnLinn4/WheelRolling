@@ -14,7 +14,6 @@ public class TilesManager : MonoBehaviour
 
     public Transform playerTransform;
 
-    private int previousIndex;
 
     void Start()
     {

@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
                 desiredLane = 0;
         }
 
-        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+        Vector3 targetPosition = transform.position.z * transform.forward;
 
         if(desiredLane == 0)
         {
@@ -52,7 +52,9 @@ public class Player : MonoBehaviour
             else
                 controller.Move(diff);
         }
-
+    }
+    
+    private void FixedUpdate() {
         controller.Move(direction * Time.deltaTime);
     }
 }
