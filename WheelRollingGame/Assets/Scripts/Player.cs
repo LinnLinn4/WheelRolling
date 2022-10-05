@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +14,8 @@ public class Player : MonoBehaviour
     private int desiredLane = 1;
     public float LaneDistance;
     int scoreAmount = 0;
+    public TMP_Text scoreText;
+    public GameObject PausePanel;
 
     private void Start() {
         instance = this;
@@ -19,6 +24,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        scoreText.SetText("Score: " + scoreAmount.ToString());
+
         direction.z = forwardSpeed;
 
         if(SwipeControl.swipeRight) //Input.GetKeyDown(KeyCode.RightArrow)
@@ -64,5 +71,10 @@ public class Player : MonoBehaviour
     {
         scoreAmount = score + scoreAmount;
         Debug.Log(scoreAmount);
+    }
+
+    public void PauseButton()
+    {
+        PausePanel.SetActive(true);
     }
 }
