@@ -28,13 +28,13 @@ public class Player : MonoBehaviour
 
         direction.z = forwardSpeed;
 
-        if(SwipeControl.swipeRight) //Input.GetKeyDown(KeyCode.RightArrow)
+        if(SwipeControl.swipeRight || Input.GetKeyDown(KeyCode.RightArrow))
         {
             desiredLane++;
             if (desiredLane == 3)
                 desiredLane = 2;
         }
-        if(SwipeControl.swipeLeft)//Input.GetKeyDown(KeyCode.LeftArrow)
+        if(SwipeControl.swipeLeft || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             desiredLane--;
             if (desiredLane == -1)
